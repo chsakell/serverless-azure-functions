@@ -32,7 +32,8 @@ namespace eShop.Controllers
                 Amount = 500,
                 Description = "ASP.NET Core Stripe",
                 Currency = "usd",
-                CustomerId = customer.Id
+                CustomerId = customer.Id,
+                Metadata = new Dictionary<string, string> { { "id", "1" }, { "name", "Christos" } }
             });
 
             return View();

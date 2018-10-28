@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using eShop.Models;
+using Stripe;
 
 namespace eShop.Controllers
 {
@@ -12,6 +13,28 @@ namespace eShop.Controllers
     {
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public async Task<IActionResult> Charge(string stripeEmail, string stripeToken)
+        {
+            var customerService = new CustomerService();
+            var chargeService = new ChargeService();
+
+            var customer = await customerService.CreateAsync(new CustomerCreateOptions
+            {
+                Email = stripeEmail,
+                SourceToken = stripeToken
+            });
+
+            var charge = await chargeService.CreateAsync(new ChargeCreateOptions
+            {
+                Amount = 500,
+                Description = "ASP.NET Core Stripe",
+                Currency = "usd",
+                CustomerId = customer.Id
+            });
+
             return View();
         }
 

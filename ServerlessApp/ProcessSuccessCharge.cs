@@ -11,7 +11,7 @@ namespace ServerlessApp
         [FunctionName("ProcessSuccessCharge")]
         public static void Run([QueueTrigger("success-charges", Connection = "")]
         Transaction transaction,
-        [Blob("licences/{rand-guid}.lic")] TextWriter licence,
+        IBinder binder,
         [Table("orders")] out Order order,
         TraceWriter log)
         {
@@ -32,10 +32,13 @@ namespace ServerlessApp
                 StripeCustomerId = transaction.StripeCustomerId
             };
 
-            licence.WriteLine($"Transaction ID: {transaction.Id}");
-            licence.WriteLine($"Email: {transaction.CustomerEmail}");
-            licence.WriteLine($"Amount payed: {transaction.Amount}  {transaction.Currency}");
-            licence.WriteLine($"Licence key: {Guid.NewGuid().ToString()}");
+            using (var licence = binder.Bind<TextWriter>(new BlobAttribute($"licences/{transaction.Id}.lic")))
+            {
+                licence.WriteLine($"Transaction ID: {transaction.Id}");
+                licence.WriteLine($"Email: {transaction.CustomerEmail}");
+                licence.WriteLine($"Amount payed: {transaction.Amount}  {transaction.Currency}");
+                licence.WriteLine($"Licence key: {Guid.NewGuid().ToString()}");
+            }
         }
     }
 }

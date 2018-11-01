@@ -19,7 +19,7 @@ namespace ServerlessApp
             message = new SendGridMessage();
             message.AddTo("chsakell@gmail.com");
             message.AddContent("text/html", $"Download your licence <a href='{licenceBlob.Uri.AbsoluteUri}' alt='Licence link'>here</a>");
-            message.SetFrom(new EmailAddress("chsakell@hotmail.com"));
+            message.SetFrom(new EmailAddress("myemailaddress@example.com"));
             message.SetSubject("Your payment has been completed");
         }
     }

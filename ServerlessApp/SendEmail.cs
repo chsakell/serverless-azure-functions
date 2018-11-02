@@ -3,9 +3,9 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.WindowsAzure.Storage.Blob;
 using SendGrid.Helpers.Mail;
-using ServerlessApp.Models;
+using ePaymentsApp.Models;
 
-namespace ServerlessApp
+namespace ePaymentsApp
 {
     public static class SendEmail
     {

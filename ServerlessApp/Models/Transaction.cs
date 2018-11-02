@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ServerlessApp.Models
+namespace ePaymentsApp.Models
 {
     public class Transaction
     {

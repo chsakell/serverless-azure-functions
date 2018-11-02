@@ -2,12 +2,11 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Stripe;
-using ServerlessApp.Models;
 using System.Threading.Tasks;
 using System.Net.Http;
-using Newtonsoft.Json;
+using ePaymentsApp.Models;
 
-namespace ServerlessApp
+namespace ePaymentsApp
 {
     public static class OnSuccessCharge
     {

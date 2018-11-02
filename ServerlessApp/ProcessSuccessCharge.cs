@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
-using ServerlessApp.Models;
+using ePaymentsApp.Models;
 
-namespace ServerlessApp
+namespace ePaymentsApp
 {
     public static class ProcessSuccessCharge
     {

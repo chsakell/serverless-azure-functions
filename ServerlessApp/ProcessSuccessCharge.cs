@@ -10,9 +10,7 @@ namespace ePaymentsApp
     {
         [FunctionName("ProcessSuccessCharge")]
         public static void Run([QueueTrigger("success-charges", Connection = "")]
-        Transaction transaction,
-        IBinder binder,
-        [Table("orders")] out Order order,
+        Transaction transaction, IBinder binder, [Table("orders")] out Order order,
         TraceWriter log)
         {
             log.Info($"C# Queue trigger function processed: {transaction}");

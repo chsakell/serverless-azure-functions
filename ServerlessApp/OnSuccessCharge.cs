@@ -4,7 +4,8 @@ using Microsoft.Azure.WebJobs.Host;
 using Stripe;
 using System.Threading.Tasks;
 using System.Net.Http;
-using ePaymentsApp.Models;
+using ServerlessApp.Models;
+using System;
 
 namespace ePaymentsApp
 {
@@ -28,7 +29,8 @@ namespace ePaymentsApp
 
             var transaction = new Transaction
             {
-                Id = charge.Id,
+                Id = Guid.NewGuid().ToString(), 
+                ChargeId = charge.Id,
                 Amount = charge.Amount,
                 Currency = charge.Currency,
                 DateCreated = charge.Created,

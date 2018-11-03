@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using ServerlessApp.Models;
 
 namespace reportsApp
 {
@@ -27,8 +28,10 @@ namespace reportsApp
             return starter.CreateCheckStatusResponse(req, orchestrationId);
         }
 
-        private static async Task<List<Transaction>> GetOrders()
+        private static async Task<List<Payment>> GetOrders()
         {
+            List<Payment> results = new List<Payment>();
+
             // Retrieve the storage account from the connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
 
@@ -36,16 +39,15 @@ namespace reportsApp
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
             // Create the CloudTable object that represents the "people" table.
-            CloudTable table = tableClient.GetTableReference("orders");
+            CloudTable table = tableClient.GetTableReference("payments");
 
             // Construct the query operation for all customer entities where PartitionKey="Smith".
-            TableQuery<Transaction> query = new TableQuery<Transaction>();
-
-            List<Transaction> results = new List<Transaction>();
+            TableQuery<Payment> query = new TableQuery<Payment>();
+            
             TableContinuationToken continuationToken = null;
             do
             {
-                TableQuerySegment<Transaction> queryResults =
+                TableQuerySegment<Payment> queryResults =
                     await table.ExecuteQuerySegmentedAsync(query, continuationToken);
 
                 continuationToken = queryResults.ContinuationToken;
@@ -57,19 +59,5 @@ namespace reportsApp
         }
 
         
-    }
-
-
-    public class Transaction : TableEntity
-    {
-        public string Id { get; set; }
-        public string CardType { get; set; }
-        public int CustomerId { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerEmail { get; set; }
-        public string StripeCustomerId { get; set; }
-        public long Amount { get; set; }
-        public string Currency { get; set; }
-        public DateTime DateCreated { get; set; }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
-using ePaymentsApp.Models;
+using ServerlessApp.Models;
 
 namespace ePaymentsApp
 {
@@ -10,29 +10,29 @@ namespace ePaymentsApp
     {
         [FunctionName("ProcessSuccessCharge")]
         public static void Run([QueueTrigger("success-charges", Connection = "")]
-        Transaction transaction, IBinder binder, [Table("orders")] out Order order,
+        Transaction transaction, IBinder binder, 
+        [Table("payments")] out Payment payment,
         TraceWriter log)
         {
             log.Info($"C# Queue trigger function processed: {transaction}");
 
-            order = new Order
+            payment = new Payment
             {
                 PartitionKey = "stripe",
                 RowKey = transaction.Id,
+                ChargeId = transaction.ChargeId,
                 Amount = transaction.Amount,
                 CardType = transaction.CardType,
                 Currency = transaction.Currency,
                 CustomerEmail = transaction.CustomerEmail,
                 CustomerId = transaction.CustomerId,
                 CustomerName = transaction.CustomerName,
-                Id = transaction.Id,
-                DateCreated = transaction.DateCreated,
-                StripeCustomerId = transaction.StripeCustomerId
+                DateCreated = transaction.DateCreated
             };
 
             using (var licence = binder.Bind<TextWriter>(new BlobAttribute($"licences/{transaction.Id}.lic")))
             {
-                licence.WriteLine($"Transaction ID: {transaction.Id}");
+                licence.WriteLine($"Transaction ID: {transaction.ChargeId}");
                 licence.WriteLine($"Email: {transaction.CustomerEmail}");
                 licence.WriteLine($"Amount payed: {transaction.Amount}  {transaction.Currency}");
                 licence.WriteLine($"Licence key: {Guid.NewGuid().ToString()}");

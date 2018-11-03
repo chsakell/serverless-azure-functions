@@ -10,6 +10,9 @@
     <PackageReference Include="Stripe.net" Version="20.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ServerlessApp.Models\ServerlessApp.Models.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

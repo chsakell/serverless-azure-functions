@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ePaymentsApp", "ServerlessA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop", "eShop\eShop.csproj", "{737A7EF1-AC9D-488B-BA61-EB1F3A6906C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "reportsApp", "reportsApp\reportsApp.csproj", "{AD113806-107B-43D2-B09F-EA98FB585EEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "reportsApp", "reportsApp\reportsApp.csproj", "{AD113806-107B-43D2-B09F-EA98FB585EEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessApp.Models", "ServerlessApp.Models\ServerlessApp.Models.csproj", "{803D3387-4726-47B3-A1E5-611C7D4A9293}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{AD113806-107B-43D2-B09F-EA98FB585EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD113806-107B-43D2-B09F-EA98FB585EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD113806-107B-43D2-B09F-EA98FB585EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{803D3387-4726-47B3-A1E5-611C7D4A9293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{803D3387-4726-47B3-A1E5-611C7D4A9293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{803D3387-4726-47B3-A1E5-611C7D4A9293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{803D3387-4726-47B3-A1E5-611C7D4A9293}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

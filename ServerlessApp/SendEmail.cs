@@ -3,15 +3,16 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.WindowsAzure.Storage.Blob;
 using SendGrid.Helpers.Mail;
-using ePaymentsApp.Models;
+using ServerlessApp.Models;
 
 namespace ePaymentsApp
 {
     public static class SendEmail
     {
         [FunctionName("SendEmail")]
-        public static void Run([BlobTrigger("licences/{name}.lic", Connection = "")]CloudBlockBlob licenceBlob, string name, 
-            [Table("orders", "stripe", "{name}")] Order order,
+        public static void Run([BlobTrigger("licences/{name}.lic")]CloudBlockBlob licenceBlob, 
+            string name, 
+            [Table("payments", "stripe", "{name}")] Payment payment,
             [SendGrid] out SendGridMessage message,
             TraceWriter log)
         {

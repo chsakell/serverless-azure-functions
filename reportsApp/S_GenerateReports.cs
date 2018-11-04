@@ -23,7 +23,7 @@ namespace reportsApp
 
             var orders = await GetOrders();
 
-            var orchestrationId = await starter.StartNewAsync("O_GenerateReports", null);
+            var orchestrationId = await starter.StartNewAsync("O_GenerateReports", orders);
 
             return starter.CreateCheckStatusResponse(req, orchestrationId);
         }

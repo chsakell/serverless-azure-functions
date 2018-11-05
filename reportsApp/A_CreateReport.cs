@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace reportsApp
 {
-    public static class A_GenerateReport
+    public static class A_CreateReport
     {
-        [FunctionName("A_GenerateReport")]
-        public static async Task<Report> GenerateReport(
+        [FunctionName("A_CreateReport")]
+        public static async Task<Report> CreateReport(
             [ActivityTrigger] List<Payment> payments,
             TraceWriter log)
         {

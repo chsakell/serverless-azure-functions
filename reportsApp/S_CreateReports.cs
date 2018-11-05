@@ -11,9 +11,9 @@ using ServerlessApp.Models;
 
 namespace reportsApp
 {
-    public static class S_GenerateReports
+    public static class S_CreateReports
     {
-        [FunctionName("S_GenerateReports")]
+        [FunctionName("S_CreateReports")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestMessage req,
             [OrchestrationClient] DurableOrchestrationClient starter,

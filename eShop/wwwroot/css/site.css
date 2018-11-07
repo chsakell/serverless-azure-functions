@@ -1,37 +1,80 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
-for details on configuring this project to bundle and minify static web assets. */
-body {
+﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 50px;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.big-lead {
+    font-size: 40px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+.price-panel,
+.price-panel > .panel-heading {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
-}
-
-/* QR code generator */
-#qrCode {
-    margin: 15px;
-}
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
+    .price-panel:hover {
+        box-shadow: 0 0 30px rgba(0,0,0, .2);
     }
+
+        .price-panel:hover > .panel-heading {
+            box-shadow: 0 0 30px rgba(0,0,0, .2) inset;
+        }
+
+    .price-panel > .panel-heading {
+        color: white;
+        text-shadow: 0 3px 0 rgba(50,50,50, .6);
+        border-radius: 0;
+        box-shadow: 0 5px 0 rgba(50,50,50, .2) inset;
+    }
+
+    .price-panel > .panel-body {
+        color: white;
+        text-shadow: 0 3px 0 rgba(50,50,50, .3);
+    }
+
+    .price-panel > .list-group {
+        font-weight: 600;
+    }
+
+    .price-panel > .panel-footer {
+        box-shadow: 0 3px 0 rgba(0,0,0, .3);
+    }
+
+.panel-grey > .panel-heading {
+    background-color: #6d6d6d;
+    border-color: #b7b7b7;
+}
+
+.panel-grey > .panel-body {
+    background-color: #808080;
+}
+
+.panel-blue > .panel-heading {
+    background-color: #608bb4;
+    border-color: #78aee1;
+}
+
+.panel-blue > .panel-body {
+    background-color: #73a3d4;
+}
+
+.panel-green > .panel-heading {
+    background-color: #57ac57;
+    border-color: #71df71;
+}
+
+.panel-green > .panel-body {
+    background-color: #65c965;
+}
+
+.panel-red > .panel-heading {
+    background-color: #d04e50;
+    border-color: #ff6062;
+}
+
+.panel-red > .panel-body {
+    background-color: #ef5a5c;
 }

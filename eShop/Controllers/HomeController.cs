@@ -16,7 +16,8 @@ namespace eShop.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Charge(string stripeEmail, string stripeToken)
+        public async Task<IActionResult> Charge(string stripeEmail, string stripeToken, 
+                                                long amountInCents, string productName)
         {
             var customerService = new CustomerService();
             var chargeService = new ChargeService();
@@ -29,11 +30,15 @@ namespace eShop.Controllers
 
             var charge = await chargeService.CreateAsync(new ChargeCreateOptions
             {
-                Amount = 500,
+                Amount = amountInCents,
                 Description = "ASP.NET Core Stripe",
                 Currency = "usd",
                 CustomerId = customer.Id,
-                Metadata = new Dictionary<string, string> { { "id", "1" }, { "name", "Christos" } }
+                Metadata = new Dictionary<string, string> {
+                    { "id", "1" },
+                    { "name", "Christos" },
+                    { "product", productName }
+                }
             });
 
             return View();

@@ -1,6 +1,6 @@
 ﻿@using Microsoft.Extensions.Options
 @inject IOptions<StripeSettings> Stripe
-@{ 
+@{
     Layout = null;
 }
 
@@ -17,6 +17,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <link href="~/css/site.css" rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script id="stripe-checkout" src="https://checkout.stripe.com/checkout.js"></script>
 </head>
 <body>
     <div class="container">
@@ -33,10 +34,10 @@
                         <li class="list-group-item"><i class="fa fa-check text-success"></i> Personal use only</li>
                         <li class="list-group-item"><i class="fa fa-times  text-danger"></i> Unlimited projects</li>
                         <li class="list-group-item"><i class="fa fa-times  text-danger"></i> 27/7 support</li>
-                        <li class="list-group-item"><i class=""></i>60 € per year</li>
+                        <li class="list-group-item"><i class=""></i>60 $ per year</li>
                     </ul>
                     <div class="panel-footer">
-                        <a href="#" class="btn btn-lg btn-block btn-default" onclick="checkout(event, 60)">BUY NOW!</a>
+                        <a href="#" class="btn btn-lg btn-block btn-default" onclick="checkout(event, 60, 'FREE PLAN')">BUY NOW!</a>
                     </div>
                 </div>
             </div>
@@ -53,10 +54,10 @@
                         <li class="list-group-item"><i class="fa fa-check text-success"></i> Commercial use</li>
                         <li class="list-group-item"><i class="fa fa-times  text-danger"></i> Unlimited projects</li>
                         <li class="list-group-item"><i class="fa fa-times  text-danger"></i> 27/7 support</li>
-                        <li class="list-group-item"><i class=""></i>120 € per year</li>
+                        <li class="list-group-item"><i class=""></i>120 $ per year</li>
                     </ul>
                     <div class="panel-footer">
-                        <a href="#" class="btn btn-lg btn-block btn-primary" onclick="checkout(event, 120)">BUY NOW!</a>
+                        <a href="#" class="btn btn-lg btn-block btn-primary" onclick="checkout(event, 120, 'STARTER PLAN')">BUY NOW!</a>
                     </div>
                 </div>
             </div>
@@ -73,10 +74,10 @@
                         <li class="list-group-item"><i class="fa fa-check text-success"></i> Commercial use</li>
                         <li class="list-group-item"><i class="fa fa-check  text-success"></i> Unlimited projects</li>
                         <li class="list-group-item"><i class="fa fa-times  text-danger"></i> 27/7 support</li>
-                        <li class="list-group-item"><i class=""></i>600 € per year</li>
+                        <li class="list-group-item"><i class=""></i>600 $ per year</li>
                     </ul>
                     <div class="panel-footer">
-                        <a href="#" class="btn btn-lg btn-block btn-success" onclick="checkout(event, 600)">BUY NOW!</a>
+                        <a href="#" class="btn btn-lg btn-block btn-success" onclick="checkout(event, 600, 'DEV PLAN')">BUY NOW!</a>
                     </div>
                 </div>
             </div>
@@ -93,31 +94,56 @@
                         <li class="list-group-item"><i class="fa fa-check text-success"></i> Commercial use</li>
                         <li class="list-group-item"><i class="fa fa-check  text-success"></i> Unlimited projects</li>
                         <li class="list-group-item"><i class="fa fa-check  text-success"></i> 27/7 support</li>
-                        <li class="list-group-item"><i class=""></i>999 € per year</li>
+                        <li class="list-group-item"><i class=""></i>999 $ per year</li>
                     </ul>
                     <div class="panel-footer">
-                        <a href="#" class="btn btn-lg btn-block btn-danger" onclick="checkout(event, 999)">BUY NOW!</a>
+                        <a href="#" class="btn btn-lg btn-block btn-danger" onclick="checkout(event, 999, 'PRO PLAN')">BUY NOW!</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script type="text/javascript">
-        function checkout(e, amount) {
+        var handler = StripeCheckout.configure({
+            key: '@Stripe.Value.PublishableKey',
+            image: 'https://blog.xamarin.com/wp-content/uploads/2016/08/Functions_Logo.png',
+            token: function (token) {
+                $("#stripeToken").val(token.id);
+                $("#stripeEmail").val(token.email);
+                $("#amountInCents").val(Math.floor($("#amountInDollars").val() * 100));
+                $("#productName").val($('#selectedProduct').val());
+                $("#checkoutForm").submit();
+            }
+        });
+
+        function checkout(e, amount, productName) {
+            $('#amountInDollars').val(amount);
+            $('#selectedProduct').val(productName);
+            var amountInCents = Math.floor($("#amountInDollars").val() * 100);
+            var displayAmount = parseFloat(Math.floor($("#amountInDollars").val() * 100) / 100).toFixed(2);
+            // Open Checkout with further options
+            handler.open({
+                name: $('#selectedProduct').text(),
+                description: 'Total amount $' + displayAmount,
+                amount: amountInCents,
+            });
             e.preventDefault();
-            var amountCents = amount * 100;
-            $('#stripe-checkout').data('amount', amountCents);
-            $('button[type = "submit"]').trigger('click');
-        }
+        };
+
+        // Close Checkout on page navigation
+        $(window).on('popstate', function () {
+            handler.close();
+        });
     </script>
-    <form action="/Home/Charge" method="post" style="display:none">
-        <script id="stripe-checkout" src="https://checkout.stripe.com/checkout.js"
-                class="stripe-button"
-                data-key="@Stripe.Value.PublishableKey"
-                data-description="ASP.NET Core Stripe"
-                data-amount="">
-        </script>
+
+    <form id="checkoutForm" action="/Home/Charge" method="POST">
+        <input type="hidden" id="stripeToken" name="stripeToken" />
+        <input type="hidden" id="stripeEmail" name="stripeEmail" />
+        <input type="hidden" id="amountInCents" name="amountInCents" />
+        <input type="hidden" id="productName" name="productName" />
     </form>
+    <div id="amountInDollars" style="display:none"></div>
+    <div id="selectedProduct" style="display:none"></div>
 </body>
 </html>
 

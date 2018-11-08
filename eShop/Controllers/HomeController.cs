@@ -11,16 +11,25 @@ namespace eShop.Controllers
 {
     public class HomeController : Controller
     {
+        static List<string> RandomNames = new List<string>
+        {
+            "Abe Poorman", "Errol Medeiros", "Kraig Stultz", "Corazon Alligood", "Buster Turco",
+            "Velma Cunniff", "Tona Nealon", "Eveline Gaydos", "Kurtis Hornbaker", "Teressa Suitt"
+        };
+
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> Charge(string stripeEmail, string stripeToken, 
                                                 long amountInCents, string productName)
         {
+            Random r = new Random();
             var customerService = new CustomerService();
             var chargeService = new ChargeService();
+            var dbCustomerId = r.Next(0, 10);
 
             var customer = await customerService.CreateAsync(new CustomerCreateOptions
             {
@@ -31,37 +40,26 @@ namespace eShop.Controllers
             var charge = await chargeService.CreateAsync(new ChargeCreateOptions
             {
                 Amount = amountInCents,
-                Description = "ASP.NET Core Stripe",
+                Description = "Azure Functions Payment",
                 Currency = "usd",
                 CustomerId = customer.Id,
                 Metadata = new Dictionary<string, string> {
-                    { "id", "1" },
-                    { "name", "Christos" },
+                    { "id", dbCustomerId.ToString() },
+                    { "name", RandomNames[dbCustomerId] },
                     { "product", productName }
                 }
             });
 
-            return View();
+            var confirmation = new Confirmation()
+            {
+                ChargeId = charge.Id,
+                Email = customer.Email,
+                Product = productName
+            };
+
+            return View(confirmation);
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

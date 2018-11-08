@@ -106,7 +106,7 @@
     <script type="text/javascript">
         var handler = StripeCheckout.configure({
             key: '@Stripe.Value.PublishableKey',
-            image: 'https://blog.xamarin.com/wp-content/uploads/2016/08/Functions_Logo.png',
+            image: '/images/functions-logo.png',
             token: function (token) {
                 $("#stripeToken").val(token.id);
                 $("#stripeEmail").val(token.email);
@@ -124,7 +124,7 @@
             // Open Checkout with further options
             handler.open({
                 name: $('#selectedProduct').text(),
-                description: 'Total amount $' + displayAmount,
+                description: productName,
                 amount: amountInCents,
             });
             e.preventDefault();

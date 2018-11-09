@@ -33,7 +33,7 @@ namespace reportsApp
             List<Payment> results = new List<Payment>();
 
             // Retrieve the storage account from the connection string.
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(GetEnvironmentVariable("AzureWebJobsStorage"));
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Utils.GetEnvironmentVariable("AzureWebJobsStorage"));
 
             // Create the table client.
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
@@ -56,12 +56,6 @@ namespace reportsApp
             } while (continuationToken != null);
 
             return results;
-        }
-
-        public static string GetEnvironmentVariable(string name)
-        {
-            return name + ": " +
-                System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
         }
     }
 }

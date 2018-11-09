@@ -21,11 +21,12 @@ namespace reportsApp
 
             foreach (var paymentGroup in payments.GroupBy(p => p.CardType))
             {
-                var task = ctx.CallActivityAsync<Report>("A_GenerateReport", paymentGroup.ToList());
+                var task = ctx.CallActivityAsync<Report>("A_CreateReport", paymentGroup.ToList());
                 reportTasks.Add(task);
             }
 
             var reports = await Task.WhenAll(reportTasks);
+
             return reports.ToList();
         }
     }

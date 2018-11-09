@@ -1,8 +1,10 @@
 ﻿using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.WindowsAzure.Storage;
 using ServerlessApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,30 +16,24 @@ namespace reportsApp
         [FunctionName("A_CreateReport")]
         public static async Task<Report> CreateReport(
             [ActivityTrigger] List<Payment> payments,
-            TraceWriter log)
+            IBinder binder, TraceWriter log)
         {
-            await Task.Delay(5000);
-
             var cardType = payments.Select(p => p.CardType).First();
-            var format = "pdf";
+            var reportId = Guid.NewGuid().ToString();
+            var reportResourceUri = $"reports/{cardType}/{reportId}.txt";
 
-            switch (cardType)
+            using (var report = binder.Bind<TextWriter>(new BlobAttribute(reportResourceUri)))
             {
-                case "Visa":
-                    format = "xls";
-                    break;
-                case "Mastercard":
-                    format = "docx";
-                    break;
-                default:
-                    break;
+                report.WriteLine($"Total payments with {cardType}: {payments.Count}");
+                report.WriteLine($"Total amount payed: ${payments.Sum(p => p.Amount)}");
             }
+
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Utils.GetEnvironmentVariable("AzureWebJobsStorage"));
 
             return new Report
             {
                 CardType = cardType,
-                Format = format,
-                Url = $"{cardType}_Payments.{format}"
+                Url = $"{storageAccount.BlobStorageUri.PrimaryUri.AbsoluteUri}{reportResourceUri}"
             };
         }
     }

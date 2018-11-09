@@ -8,6 +8,5 @@ namespace ServerlessApp.Models
     {
         public string CardType { get; set; }
         public string Url { get; set; }
-        public string Format { get; set; }
     }
 }

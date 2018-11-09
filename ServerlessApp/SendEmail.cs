@@ -16,11 +16,11 @@ namespace ePaymentsApp
             [SendGrid] out SendGridMessage message,
             TraceWriter log)
         {
-            log.Info($"C# Blob trigger function Processed blob\n Name:{name}");
+            log.Info($"SendEmail Blob trigger function processed blob\n Name:{name}");
             message = new SendGridMessage();
             message.AddTo("chsakell@gmail.com");
             message.AddContent("text/html", $"Download your licence <a href='{licenceBlob.Uri.AbsoluteUri}' alt='Licence link'>here</a>");
-            message.SetFrom(new EmailAddress("myemailaddress@example.com"));
+            message.SetFrom(new EmailAddress("payments@chsakell.com"));
             message.SetSubject("Your payment has been completed");
         }
     }

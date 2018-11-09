@@ -14,7 +14,7 @@ namespace ePaymentsApp
         [Table("payments")] out Payment payment,
         TraceWriter log)
         {
-            log.Info($"C# Queue trigger function processed: {transaction}");
+            log.Info($"ProcessSuccessCharge function processed: {transaction}");
 
             payment = new Payment
             {
@@ -27,6 +27,7 @@ namespace ePaymentsApp
                 CustomerEmail = transaction.CustomerEmail,
                 CustomerId = transaction.CustomerId,
                 CustomerName = transaction.CustomerName,
+                Product = transaction.Product,
                 DateCreated = transaction.DateCreated
             };
 
@@ -35,7 +36,7 @@ namespace ePaymentsApp
                 licence.WriteLine($"Transaction ID: {transaction.ChargeId}");
                 licence.WriteLine($"Email: {transaction.CustomerEmail}");
                 licence.WriteLine($"Amount payed: {transaction.Amount}  {transaction.Currency}");
-                licence.WriteLine($"Licence key: {Guid.NewGuid().ToString()}");
+                licence.WriteLine($"Licence key: {transaction.Id}");
             }
         }
     }

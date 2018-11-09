@@ -18,7 +18,7 @@ namespace ePaymentsApp
             [Queue("success-charges", Connection = "AzureWebJobsStorage")]IAsyncCollector<Transaction> queue,
             TraceWriter log)
         {
-            log.Info("C# HTTP trigger function processed a request.");
+            log.Info("OnSuccessCharge HTTP trigger function processed a request.");
 
             var jsonEvent = await req.Content.ReadAsStringAsync();
 
@@ -38,7 +38,8 @@ namespace ePaymentsApp
                 CustomerEmail = card.Name,
                 CardType = card.Brand,
                 CustomerId = int.Parse(charge.Metadata["id"]),
-                CustomerName = charge.Metadata["name"]
+                CustomerName = charge.Metadata["name"],
+                Product = charge.Metadata["product"]
             };
 
             await queue.AddAsync(transaction);

@@ -14,6 +14,7 @@ namespace ServerlessApp.Models
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerEmail { get; set; }
+        public string Product { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }

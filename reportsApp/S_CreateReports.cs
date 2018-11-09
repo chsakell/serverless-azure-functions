@@ -19,7 +19,7 @@ namespace reportsApp
             [OrchestrationClient] DurableOrchestrationClient starter,
             TraceWriter log)
         {
-            log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
+            log.Info($"S_CreateReports HTTP trigger function executed at: {DateTime.Now}");
 
             var orders = await GetOrders();
 
@@ -33,7 +33,7 @@ namespace reportsApp
             List<Payment> results = new List<Payment>();
 
             // Retrieve the storage account from the connection string.
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(GetEnvironmentVariable("AzureWebJobsStorage"));
 
             // Create the table client.
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
@@ -58,6 +58,10 @@ namespace reportsApp
             return results;
         }
 
-        
+        public static string GetEnvironmentVariable(string name)
+        {
+            return name + ": " +
+                System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
+        }
     }
 }

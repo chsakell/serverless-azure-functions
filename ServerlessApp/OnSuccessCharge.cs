@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using ServerlessApp.Models;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace ePaymentsApp
 {
@@ -16,9 +17,9 @@ namespace ePaymentsApp
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]
             HttpRequestMessage req,
             [Queue("success-charges", Connection = "AzureWebJobsStorage")]IAsyncCollector<Transaction> queue,
-            TraceWriter log)
+            ILogger log)
         {
-            log.Info("OnSuccessCharge HTTP trigger function processed a request.");
+            log.LogInformation("OnSuccessCharge HTTP trigger function processed a request.");
 
             var jsonEvent = await req.Content.ReadAsStringAsync();
 

@@ -1,6 +1,7 @@
 using System.IO;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage.Blob;
 using SendGrid.Helpers.Mail;
 using ServerlessApp.Models;
@@ -14,9 +15,9 @@ namespace ePaymentsApp
             string name, 
             [Table("payments", "stripe", "{name}")] Payment payment,
             [SendGrid] out SendGridMessage message,
-            TraceWriter log)
+            ILogger log)
         {
-            log.Info($"SendEmail Blob trigger function processed blob\n Name:{name}");
+            log.LogInformation($"SendEmail Blob trigger function processed blob\n Name:{name}");
             message = new SendGridMessage();
             message.AddTo("chsakell@gmail.com");
             message.AddContent("text/html", $"Download your licence <a href='{licenceBlob.Uri.AbsoluteUri}' alt='Licence link'>here</a>");

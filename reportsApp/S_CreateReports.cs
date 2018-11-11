@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using ServerlessApp.Models;
@@ -17,9 +18,9 @@ namespace reportsApp
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestMessage req,
             [OrchestrationClient] DurableOrchestrationClient starter,
-            TraceWriter log)
+            ILogger log)
         {
-            log.Info($"S_CreateReports HTTP trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"Executing Starter function S_CreateReports at: {DateTime.Now}");
 
             var orders = await GetOrders();
 

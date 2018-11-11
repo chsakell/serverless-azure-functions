@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 using ServerlessApp.Models;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,9 @@ namespace reportsApp
         [FunctionName("O_GenerateReports")]
         public static async Task<List<Report>> GenerateReports(
            [OrchestrationTrigger] DurableOrchestrationContext ctx,
-           TraceWriter log)
+           ILogger log)
         {
+            log.LogInformation("Executing orchestrator function");
             var payments = ctx.GetInput<List<Payment>>();
             var reportTasks = new List<Task<Report>>();
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using ServerlessApp.Models;
 using System;
@@ -16,8 +17,10 @@ namespace reportsApp
         [FunctionName("A_CreateReport")]
         public static async Task<Report> CreateReport(
             [ActivityTrigger] List<Payment> payments,
-            IBinder binder, TraceWriter log)
+            IBinder binder, ILogger log)
         {
+            log.LogInformation($"Executing A_CreateReport");
+
             var cardType = payments.Select(p => p.CardType).First();
             var reportId = Guid.NewGuid().ToString();
             var reportResourceUri = $"reports/{cardType}/{reportId}.txt";

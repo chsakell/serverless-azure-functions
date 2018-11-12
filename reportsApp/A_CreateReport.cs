@@ -28,7 +28,7 @@ namespace reportsApp
             using (var report = binder.Bind<TextWriter>(new BlobAttribute(reportResourceUri)))
             {
                 report.WriteLine($"Total payments with {cardType}: {payments.Count}");
-                report.WriteLine($"Total amount payed: ${payments.Sum(p => p.Amount)}");
+                report.WriteLine($"Total amount paid: ${payments.Sum(p => p.Amount)}");
             }
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Utils.GetEnvironmentVariable("AzureWebJobsStorage"));

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
@@ -17,9 +18,9 @@ namespace ePaymentsApp
             [SendGrid] out SendGridMessage message,
             ILogger log)
         {
-            log.LogInformation($"SendEmail Blob trigger function processed blob\n Name:{name}");
+            log.LogInformation($"SendEmail Blob trigger function processing blob: {name}");
             message = new SendGridMessage();
-            message.AddTo("chsakell@gmail.com");
+            message.AddTo(System.Environment.GetEnvironmentVariable("EmailRecipient", EnvironmentVariableTarget.Process));
             message.AddContent("text/html", $"Download your licence <a href='{licenceBlob.Uri.AbsoluteUri}' alt='Licence link'>here</a>");
             message.SetFrom(new EmailAddress("payments@chsakell.com"));
             message.SetSubject("Your payment has been completed");

@@ -37,4 +37,4 @@
 </tbody>
 </table>
 <h3>License</h3>
-Code released under the <a href="https://github.com/chsakell/serveless-azure-functions/blob/master/LICENSE" target="_blank"> MIT license</a>.
+Code released under the <a href="https://github.com/chsakell/serverless-azure-functions/blob/master/LICENSE" target="_blank"> MIT license</a>.

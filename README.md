@@ -1,8 +1,8 @@
-# Building serveless apps with Azure Functions
+# Building serverless apps with Azure Functions
 
 ![Azure Functions](https://chsakell.files.wordpress.com/2018/11/building-serveless-apps-with-azure-functions-02.png)
 
-## Source code for the [Building serveless apps with Azure Functions](https://wp.me/p3mRWu-1nB) post
+## Source code for the [Building serverless apps with Azure Functions](https://wp.me/p3mRWu-1nB) post
 
 * Define what `Azure Functions` are and what problems they can solve
 * Describe the different components of an Azure Function – `Triggers` and `Bindings`

@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsDashboard": "",
+    "AzureWebJobsSendGridApiKey": "",
+    "EmailRecipient": ""
+  }
+}
+// Rename this file to local.settings.json

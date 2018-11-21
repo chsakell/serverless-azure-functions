@@ -32,12 +32,12 @@ namespace ePaymentsApp
                 DateCreated = transaction.DateCreated
             };
 
-            using (var licence = binder.Bind<TextWriter>(new BlobAttribute($"licences/{transaction.Id}.lic")))
+            using (var license = binder.Bind<TextWriter>(new BlobAttribute($"licenses/{transaction.Id}.lic")))
             {
-                licence.WriteLine($"Transaction ID: {transaction.ChargeId}");
-                licence.WriteLine($"Email: {transaction.CustomerEmail}");
-                licence.WriteLine($"Amount payed: {transaction.Amount}  {transaction.Currency}");
-                licence.WriteLine($"Licence key: {transaction.Id}");
+                license.WriteLine($"Transaction ID: {transaction.ChargeId}");
+                license.WriteLine($"Email: {transaction.CustomerEmail}");
+                license.WriteLine($"Amount payed: {transaction.Amount}  {transaction.Currency}");
+                license.WriteLine($"license key: {transaction.Id}");
             }
         }
     }
